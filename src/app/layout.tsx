@@ -4,6 +4,7 @@ import StoreProvider from "./StoreProvider";
 import { Fredoka } from "next/font/google";
 import "./globals.css";
 import Navbar from "./_components/Navbar";
+import { Toaster } from "react-hot-toast";
 
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +32,7 @@ export default function RootLayout({
         <StoreProvider>
           {children}
           </StoreProvider>
+          <Toaster position="top-center"/>
         </main>
 
       </body>

@@ -13,18 +13,16 @@ const Navbar = (props: Props) => {
             <nav className='bg-emptyCircle text-textColor'>
                 <div className='mx-auto px-4 sm:px-6 lg:px-8'>
                     <div className='flex items-center justify-between h-16'>
-                        <div className='flex items-center'>
-                            <div className='flex-shrink'>
-                                <a href='/' className=''>
+                        <div className=''>
+                        <a href='/' className=''>
                                     Logo
                                 </a>
-                            </div>
                         </div>
-                        <div className='text-4xl font-semibold'>
+                        <div className='md:absolute md:left-1/2 md:transform md:-translate-x-1/2 text-4xl font-semibold'>
                             Wordle App
                         </div>
                         <div className='hidden md:block'>
-                            <div className='ml-4 flex items-center space-x-4'>
+                            <div className='space-x-4'>
                                 <a href='/' className='hover:bg-white hover:text-black rounded-lg p-2'>
                                     Home
                                 </a>

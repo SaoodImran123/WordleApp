@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, forwardRef, ref, useState } from 'react'
 import OTPInput, { InputProps } from 'react-otp-input';
 import { useAppDispatch, useAppSelector } from '@/app/store/hooks';
 import { setActiveRow } from '@/app/store/rowSlice';
 import { RootState } from '@/app/store/store';
-import toast from 'react-hot-toast';
+import { current } from '@reduxjs/toolkit';
 
 interface SubGridProps {
     rowIndex: number;
@@ -11,14 +11,12 @@ interface SubGridProps {
 const colorMap = ['bg-grayCircle', 'bg-orangeCircle', 'bg-greenCircle']
 const checkAlpha = (key: string) => /^[a-zA-Z]$/.test(key)
 
-export default function SubGrid({ rowIndex }: SubGridProps) {
+const Test = forwardRef<HTMLDivElement, SubGridProps>(function SubGrid({ rowIndex }: SubGridProps, ref) {
     const [code, setCode] = useState<string>("")
     const [error, setError] = useState<string | null>(null)
     const [isLocked, setIsLocked] = useState<boolean>(true)
     const [colors, setColors] = useState<string[]>(new Array(5).fill(('bg-emptyCircle')));
     const [currentInput, setCurrentInput] = useState<number>(0); 
-
-    const divRef = useRef<HTMLDivElement>(null);
 
     const dispatch = useAppDispatch()
     const currentActiveRow = useAppSelector((state: RootState) => state.activeRow.currentRow)
@@ -27,7 +25,6 @@ export default function SubGrid({ rowIndex }: SubGridProps) {
     useEffect(() => {
         if (rowIndex == currentActiveRow) {
             setIsLocked(false)
-            divRef?.current?.focus();
 
         } else (
             setIsLocked(true)
@@ -40,9 +37,7 @@ export default function SubGrid({ rowIndex }: SubGridProps) {
         if (isLocked == false){
             if (e.key === 'Enter') {
                 if (code.length < 5) {
-                    toast.error("Too few characters!"), {
-                        duration: 1000,
-                    }
+                    setError('Not enough letters')
                 } else {
                     setError(null);
                     try {
@@ -54,7 +49,7 @@ export default function SubGrid({ rowIndex }: SubGridProps) {
                             body: JSON.stringify({ guess: code })
                         })
                         if (!response.ok) {
-                            throw new Error('Response not ok');
+                            throw new Error('Network response error');
                           }
                         const result = await response.json()
                         if (result.is_valid_word == true) {
@@ -63,14 +58,9 @@ export default function SubGrid({ rowIndex }: SubGridProps) {
                             setColors(newColors)
                             dispatch(setActiveRow(currentActiveRow + 1))
                         }
-                        else{
-                            toast.error("Not a valid word.", {
-                                duration: 1000,
-                              });
-                        }
                     }
                     catch (error) {
-                        console.log("Error in fetch request")
+                        console.log("Error in handle key down")
                     }
                             
                 }
@@ -89,10 +79,10 @@ export default function SubGrid({ rowIndex }: SubGridProps) {
         }
     }
     return (
-        <div className='flex justify-center pb-5 focus:outline-none'
+        <div className='flex justify-center pb-5'
         onKeyDown={handleKeyDown}
         tabIndex={0}
-        ref={divRef}>
+        ref={ref}>
             <OTPInput
                 value={code}
                 onChange={handleChange}
@@ -110,6 +100,8 @@ export default function SubGrid({ rowIndex }: SubGridProps) {
                 skipDefaultStyles={true}
                 shouldAutoFocus={true}
             />
+            {error && <div className="text-red-500 mt-2">{error}</div>} {/* Display error message */}
         </div>
     )
-}
+})
+export default Test
