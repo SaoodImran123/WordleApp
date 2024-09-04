@@ -1,16 +1,18 @@
 'use client'
-import React, { useState } from 'react'
+import React from 'react'
 import SubGrid from './SubGrid';
-
+import {useAppSelector } from '@/app/store/hooks';
 type Props = {}
 
+
 export default function WordleGrid({ }: Props) {
-  const ROWS = 6;
-  const idx = Array.from({ length: ROWS }, (_, index) => index)
+  const codes = useAppSelector((state) => state.codes.codes);
+
+
 
   return (
     <div className='flex justify-center flex-col'>
-      {idx.map((index) => (
+      {codes.map((code, index) => (
         <SubGrid key={index} rowIndex={index}></SubGrid>
       ))}
     </div>

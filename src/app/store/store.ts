@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import activeRowReducer from './rowSlice';
+import codesReducer from './codesSlice';
 
 export const makeStore = () => {
     return configureStore({
         reducer: {
-            activeRow: activeRowReducer,
+            codes: codesReducer,
         },
     })
 }
