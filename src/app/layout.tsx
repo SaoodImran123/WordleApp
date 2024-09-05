@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Provider } from "react-redux";
 import StoreProvider from "./StoreProvider";
 import { Fredoka } from "next/font/google";
 import "./globals.css";
@@ -26,13 +25,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${fredoka.variable} font-sans min-h-screen flex flex-col bg-[url('/background.png')]`}>
+      <body className={`${fredoka.variable} font-sans min-h-screen flex flex-col bg-[url('/background.webp')]`}>
         <Navbar />
         <main className="pt-10 max-sm:pb-10 md:px-20 md:flex flex-grow justify-center">
         <StoreProvider>
           {children}
           </StoreProvider>
-          <Toaster position="top-center"/>
+          <Toaster position="top-center" toastOptions={{
+            success: {
+              className: "p-4 text-xl"
+            }
+          }}/>
         </main>
 
       </body>

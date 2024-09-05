@@ -6,6 +6,7 @@ import 'react-simple-keyboard/build/css/index.css';
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import toast from "react-hot-toast";
 import { setCodes, setColors } from "./store/codesSlice";
+import Confetti from "react-confetti";
 
 const colorMap = ['bg-grayCircle', 'bg-orangeCircle', 'bg-greenCircle']
 const checkAlpha = (key: string) => /^[a-zA-Z]$/.test(key)
@@ -23,6 +24,7 @@ const translateKey = (key: string): string => {
 export default function Home() {
   const [row, setRow] = useState<number>(0)
   const codes = useAppSelector((state) => state.codes.codes);
+  const [showConfetti, setShowConfetti] = useState<boolean>(false)
   const dispatch = useAppDispatch()
   const layout = {
     default: [
@@ -109,7 +111,8 @@ export default function Home() {
             console.log(newColors)
             dispatch(setColors({ index: row, colors: newColors }))
             if (JSON.stringify(result.score) === JSON.stringify([2, 2, 2, 2, 2])){
-              toast.success("You win!", {duration: 1000})
+              toast.success("You win!", {duration: 10000})
+              setShowConfetti(true)
             }
             else if (row < 5 ){
               setRow(prev => prev+1)
@@ -163,11 +166,13 @@ export default function Home() {
     };
   }, [codes, row]);
 
+
   
   return (
    <div className="h-full flex-none md:w-1/3  bg-white bg-opacity-30 py-5 rounded-2xl">
+    {showConfetti && <Confetti numberOfPieces={200} recycle={false}/>}
       <WordleGrid />
-      <div className="md:w-4/5 mt-4 mx-auto"> {/* Container div with 1/3 width */}
+      <div className="md:w-4/5 mt-4 mx-auto">
         <Keyboard layout={layout}
         theme={"hg-theme-default keyboard-bg"}
         display={{'{enter}': 'Enter','{bksp}': 'Backspace',}} 

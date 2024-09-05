@@ -1,5 +1,7 @@
 'use client'
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 type Props = {}
 
 const Navbar = (props: Props) => {
@@ -7,28 +9,33 @@ const Navbar = (props: Props) => {
     const toggleNav = () => {
         setisClicked(prev => !prev)
     }
+    const router = useRouter()
 
     return (
         <>
             <nav className='bg-gradient-to-r from-gradientLeft to-gradientRight text-navTextColor'>
                 <div className='mx-auto px-4 sm:px-6 lg:px-8'>
                     <div className='flex items-center justify-between h-16'>
-                        <div className=''>
-                        <a href='/' className=''>
-                                    Logo
-                                </a>
-                        </div>
+                    <div className='flex-shrink-0'>
+                <Link href='/'>
+                    <img 
+                        className="h-[4em] w-auto object-contain" 
+                        src="/logo2.png" 
+                        alt="Logo"
+                    />
+                </Link>
+            </div>
                         <div className='md:absolute md:left-1/2 md:transform md:-translate-x-1/2 text-4xl font-semibold'>
                             Wordle App
                         </div>
                         <div className='hidden md:block'>
                             <div className='space-x-4'>
-                                <a href='/' className='hover:bg-white hover:text-black rounded-lg p-2'>
+                                <Link href="/" className='hover:bg-white hover:text-black rounded-lg p-2'>
                                     Home
-                                </a>
-                                <a href='/' className=' hover:bg-white hover:text-black rounded-lg p-2'>
+                                </Link>
+                                <Link href="/about" className='hover:bg-white hover:text-black rounded-lg p-2'>
                                     About
-                                </a>
+                                </Link>
                             </div>
 
                         </div>
@@ -83,12 +90,12 @@ const Navbar = (props: Props) => {
                 {isClicked && (
                     <div className='md:hidden'>
                         <div className='px-2 pt-2 pb-3 space-y-1 sm:px-3'>
-                            <a href='/' className='text-white block hover:bg-white hover:text-black rounded-lg p-2'>
+                            <Link href='/' className='text-white block hover:bg-white hover:text-black rounded-lg p-2'>
                                 Home
-                            </a>
-                            <a href='/' className='text-white block hover:bg-white hover:text-black rounded-lg p-2'>
+                            </Link>
+                            <Link href='/about' className='text-white block hover:bg-white hover:text-black rounded-lg p-2'>
                                 About
-                            </a>
+                            </Link>
 
                         </div>
                     </div>
