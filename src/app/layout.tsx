@@ -26,9 +26,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${fredoka.variable} font-sans min-h-screen flex flex-col`}>
+      <body className={`${fredoka.variable} font-sans min-h-screen flex flex-col bg-[url('/background.png')]`}>
         <Navbar />
-        <main className="pt-10 max-sm:pb-10 md:px-20 flex-grow bg-gradient-to-b from-gradientTop to-gradientBot">
+        <main className="pt-10 max-sm:pb-10 md:px-20 md:flex flex-grow justify-center">
         <StoreProvider>
           {children}
           </StoreProvider>

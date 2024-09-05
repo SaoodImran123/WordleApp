@@ -7,12 +7,12 @@ interface CodeState {
 
 const initialState: CodeState = {
   codes: ["", "", "", "", "", ""],
-  colors: [["bg-emptyCircle","bg-emptyCircle","bg-emptyCircle","bg-emptyCircle","bg-emptyCircle"],
-  ["bg-emptyCircle","bg-emptyCircle","bg-emptyCircle","bg-emptyCircle","bg-emptyCircle"],
-  ["bg-emptyCircle","bg-emptyCircle","bg-emptyCircle","bg-emptyCircle","bg-emptyCircle"],
-  ["bg-emptyCircle","bg-emptyCircle","bg-emptyCircle","bg-emptyCircle","bg-emptyCircle"],
-  ["bg-emptyCircle","bg-emptyCircle","bg-emptyCircle","bg-emptyCircle","bg-emptyCircle"],
-  ["bg-emptyCircle","bg-emptyCircle","bg-emptyCircle","bg-emptyCircle","bg-emptyCircle"],]
+  colors: [["bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30"],
+  ["bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30"],
+  ["bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30"],
+  ["bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30"],
+  ["bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30"],
+  ["bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30"],]
 };
 
 const codeSlice = createSlice({

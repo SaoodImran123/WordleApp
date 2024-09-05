@@ -8,3 +8,16 @@
   --font-fredoka: 'Fredoka', sans-serif;
 }
 
+@layer utilities {
+
+  .keyboard-bg {
+    @apply bg-transparent !important
+  }
+  .keyboard-bt-hover {
+    @apply hover:bg-opacity-60 !important
+  }
+  .bg-radial {
+    background: radial-gradient(circle, #e4ffef 0%, #d7e4ff 100%);
+  }
+
+}

@@ -14,14 +14,24 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        emptyCircle: '#ccdffd',
+        emptyCircle: '#ffffff',
         greenCircle: '#7ed957',
         orangeCircle: '#ffbd59',
         grayCircle: '#a6a6a6',
         circleText: '#e6f0ff',
-        textColor: '#92acd6',
-        gradientTop: '#e4ffef',
-        gradientBot: '#d7e4ff'
+        navTextColor: '#ffffff',
+        gradientLeft: '#8561d5',
+        gradientRight: '#079df1',
+        keyboardCol1: '#8462d5',
+        keyboardCol2: '#7e65d6',
+        keyboardCol3: '#7369d8',
+        keyboardCol4: '#6371dc',
+        keyboardCol5: '#4e7ce1',
+        keyboardCol6: '#3886e6',
+        keyboardCol7: '#2390ea',
+        keyboardCol8: '#1497ed',
+        keyboardCol9: '#0b9bf0',
+        keyboardCol10: '#079df1',
       }
     },
     fontFamily: {

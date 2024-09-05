@@ -26,13 +26,65 @@ export default function Home() {
   const dispatch = useAppDispatch()
   const layout = {
     default: [
-      'q w e r t y u i o p {bksp}',
-      'a s d f g h j k l {enter}',
-      'z x c v b n m'
+      'Q W E R T Y U I O P',
+      'A S D F G H J L {enter}',
+      'Z X C V B N M {bksp}'
     ],
   };
+
+  const buttonTheme = [
+    {
+      class: "text-white font-semibold keyboard-bt-hover !w-12",
+      buttons: "Q W E R T Y U I O P A S D F G H J K L Z X C V B N M {enter}",
+    },
+    {
+      class: "!bg-keyboardCol1",
+      buttons: "Q A Z",
+    },
+    {
+      class: "!bg-keyboardCol2",
+      buttons: "W S X",
+    },
+    {
+      class: "!bg-keyboardCol3",
+      buttons: "E D C"
+    },
+    {
+      class: "!bg-keyboardCol4",
+      buttons: "R F V",
+    },
+    {
+      class: "!bg-keyboardCol5",
+      buttons: "T G B",
+    },
+    {
+      class: "!bg-keyboardCol6",
+      buttons: "Y H N",
+    },
+    {
+      class: "!bg-keyboardCol7",
+      buttons: "U J M",
+    },
+    {
+      class: "!bg-keyboardCol8",
+      buttons: "I K",
+    },
+    {
+      class: "!bg-keyboardCol9",
+      buttons: "O L",
+    },
+    {
+      class: "!bg-keyboardCol10",
+      buttons: "P {bksp} {enter}",
+    },
+    {
+      class: "text-white keyboard-bt-hover font-semibold",
+      buttons: "{bksp}",
+    }
+  ];
+
+  
   const handleKeyDown = async (e: KeyboardEvent) => {
-    console.log(e.key)
     if (e.key === 'Enter') {
       if (codes[row].length < 5) {
         toast.error("Too few characters!"), {
@@ -63,7 +115,7 @@ export default function Home() {
               setRow(prev => prev+1)
             }
             else{
-              toast.error("Nice try!", {duration: 10000})
+              toast.error("Nice try!", {duration: 5000})
             }
             
           }
@@ -113,10 +165,16 @@ export default function Home() {
 
   
   return (
-   <div className="h-full flex-none">
+   <div className="h-full flex-none md:w-1/3  bg-white bg-opacity-30 py-5 rounded-2xl">
       <WordleGrid />
-      <div className="md:w-2/3 mt-4 mx-auto"> {/* Container div with 1/3 width */}
-        <Keyboard layout={layout} display={{'{enter}': 'Enter','{bksp}': 'Backspace',}} onKeyPress={(button) => handleKeyboardKeyPress(button)}/>
+      <div className="md:w-4/5 mt-4 mx-auto"> {/* Container div with 1/3 width */}
+        <Keyboard layout={layout}
+        theme={"hg-theme-default keyboard-bg"}
+        display={{'{enter}': 'Enter','{bksp}': 'Backspace',}} 
+        onKeyPress={(button) => handleKeyboardKeyPress(button)}
+        buttonTheme={buttonTheme}
+        disableButtonHold={true}
+        />
       </div>
    </div>
   );
