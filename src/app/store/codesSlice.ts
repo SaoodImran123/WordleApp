@@ -2,7 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface CodeState {
   codes: string[];
-  colors: string[][]
+  colors: string[][];
+  shakers: boolean[]
 }
 
 const initialState: CodeState = {
@@ -12,7 +13,8 @@ const initialState: CodeState = {
   ["bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30"],
   ["bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30"],
   ["bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30"],
-  ["bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30"],]
+  ["bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30","bg-emptyCircle bg-opacity-30"],],
+  shakers: [false, false, false, false, false, false]
 };
 
 const codeSlice = createSlice({
@@ -27,8 +29,12 @@ const codeSlice = createSlice({
         const {index, colors } = action.payload
         state.colors[index] = colors
       },
+      setShakers(state, action: PayloadAction<{index: number, shakeStatus: boolean}>) {
+        const {index, shakeStatus } = action.payload
+        state.shakers[index] = shakeStatus
+      },
   },
 });
 
-export const { setCodes, setColors } = codeSlice.actions;
+export const { setCodes, setColors, setShakers } = codeSlice.actions;
 export default codeSlice.reducer;

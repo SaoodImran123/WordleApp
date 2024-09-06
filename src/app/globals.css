@@ -16,8 +16,20 @@
   .keyboard-bt-hover {
     @apply hover:bg-opacity-60 !important
   }
-  .bg-radial {
-    background: radial-gradient(circle, #e4ffef 0%, #d7e4ff 100%);
-  }
 
 }
+
+@keyframes scrollFromBottom {
+  0% {
+    transform: translateY(100%);
+
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.scroll-in-bottom {
+  animation: scrollFromBottom 1.25s;
+}
+

@@ -5,6 +5,8 @@ import "./globals.css";
 import Navbar from "./_components/Navbar";
 import { Toaster } from "react-hot-toast";
 
+
+
 // const inter = Inter({ subsets: ["latin"] });
 
 const fredoka = Fredoka({
@@ -23,18 +25,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
-    <html lang="en">
+    <html lang="en" className="">
       <body className={`${fredoka.variable} font-sans min-h-screen flex flex-col bg-[url('/background.webp')]`}>
         <Navbar />
-        <main className="pt-10 max-sm:pb-10 md:px-20 md:flex flex-grow justify-center">
+        <main className="pt-10 mt-5 max-sm:pb-10 md:px-20 md:flex flex-grow justify-center">
         <StoreProvider>
           {children}
           </StoreProvider>
           <Toaster position="top-center" toastOptions={{
-            success: {
-              className: "p-4 text-xl"
-            }
+            className: "mt-12 p-4 text-xl"
           }}/>
         </main>
 

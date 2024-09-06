@@ -1,186 +1,80 @@
 "use client"
-import { useEffect, useState } from "react";
-import WordleGrid from "./_components/wordleGrid/WordleGrid";
-import Keyboard from 'react-simple-keyboard';
+import { useEffect, useState, useMemo } from "react";
 import 'react-simple-keyboard/build/css/index.css'; 
-import { useAppDispatch, useAppSelector } from "./store/hooks";
-import toast from "react-hot-toast";
-import { setCodes, setColors } from "./store/codesSlice";
-import Confetti from "react-confetti";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import {
+  type ISourceOptions,
+  MoveDirection,
+  OutMode,
+} from "@tsparticles/engine";
+import { loadSlim } from "@tsparticles/slim"; 
+import GameBoard from "./GameBoard";
 
-const colorMap = ['bg-grayCircle', 'bg-orangeCircle', 'bg-greenCircle']
-const checkAlpha = (key: string) => /^[a-zA-Z]$/.test(key)
-const translateKey = (key: string): string => {
-  switch (key) {
-    case '{enter}':
-      return 'Enter';
-    case '{bksp}':
-      return 'Backspace';
-    default:
-      return key;
-  }
-};
+
 
 export default function Home() {
-  const [row, setRow] = useState<number>(0)
-  const codes = useAppSelector((state) => state.codes.codes);
-  const [showConfetti, setShowConfetti] = useState<boolean>(false)
-  const dispatch = useAppDispatch()
-  const layout = {
-    default: [
-      'Q W E R T Y U I O P',
-      'A S D F G H J L {enter}',
-      'Z X C V B N M {bksp}'
-    ],
-  };
+  const [init, setInit] = useState(false);
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine);
 
-  const buttonTheme = [
-    {
-      class: "text-white font-semibold keyboard-bt-hover !w-12",
-      buttons: "Q W E R T Y U I O P A S D F G H J K L Z X C V B N M {enter}",
-    },
-    {
-      class: "!bg-keyboardCol1",
-      buttons: "Q A Z",
-    },
-    {
-      class: "!bg-keyboardCol2",
-      buttons: "W S X",
-    },
-    {
-      class: "!bg-keyboardCol3",
-      buttons: "E D C"
-    },
-    {
-      class: "!bg-keyboardCol4",
-      buttons: "R F V",
-    },
-    {
-      class: "!bg-keyboardCol5",
-      buttons: "T G B",
-    },
-    {
-      class: "!bg-keyboardCol6",
-      buttons: "Y H N",
-    },
-    {
-      class: "!bg-keyboardCol7",
-      buttons: "U J M",
-    },
-    {
-      class: "!bg-keyboardCol8",
-      buttons: "I K",
-    },
-    {
-      class: "!bg-keyboardCol9",
-      buttons: "O L",
-    },
-    {
-      class: "!bg-keyboardCol10",
-      buttons: "P {bksp} {enter}",
-    },
-    {
-      class: "text-white keyboard-bt-hover font-semibold",
-      buttons: "{bksp}",
-    }
-  ];
+    }).then(() => {
+      setInit(true);
+    });
+  }, []);
 
   
-  const handleKeyDown = async (e: KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      if (codes[row].length < 5) {
-        toast.error("Too few characters!"), {
-          duration: 1000,
-        }
-      } else {
-        try {
-          const response = await fetch('https://wordle-apis.vercel.app/api/validate', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ guess: codes[row] })
-          })
-          if (!response.ok) {
-            throw new Error('Response not ok');
-          }
-          const result = await response.json()
-
-          if (result.is_valid_word == true) {
-            const newColors = result.score.map((score: number) => colorMap[score])
-            console.log(newColors)
-            dispatch(setColors({ index: row, colors: newColors }))
-            if (JSON.stringify(result.score) === JSON.stringify([2, 2, 2, 2, 2])){
-              toast.success("You win!", {duration: 10000})
-              setShowConfetti(true)
-            }
-            else if (row < 5 ){
-              setRow(prev => prev+1)
-            }
-            else{
-              toast.error("Nice try!", {duration: 5000})
-            }
-            
-          }
-          else {
-            toast.error("Not a valid word.", {
-              duration: 1000,
-            });
-          }
-        }
-        catch (error) {
-          console.log("Error in fetch request")
-        }
-
-      }
-    }
-    else if (checkAlpha(e.key)) {
-      if (codes[row].length < 5) {
-        dispatch(setCodes({ index: row, code: codes[row] + e.key.toUpperCase() }))
-      }
-    }
-    else if (e.key === 'Backspace') {
-      e.preventDefault()
-      dispatch(setCodes({ index: row, code: codes[row].slice(0, -1) }))
-    }
-  }
-
-  const handleKeyboardKeyPress = (button: string) => {
-    const translatedKey = translateKey(button);
-    const event = new KeyboardEvent('keydown', {
-      key: translatedKey,
-      code: translatedKey,
-      keyCode: translatedKey.charCodeAt(0),
-      which: translatedKey.charCodeAt(0),
-      bubbles: true
-    })
-    
-    handleKeyDown(event);
-  }
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [codes, row]);
-
-
+  const options: ISourceOptions = useMemo(
+    () => ({
+      fpsLimit: 60,
+      particles: {
+        color: {
+          value: "#ffffff",
+        },
+        links: {
+          color: "#ffffff",
+          distance: 0,
+          enable: true,
+          opacity: 0.5,
+          width: 1,
+        },
+        move: {
+          direction: MoveDirection.none,
+          enable: true,
+          outModes: {
+            default: OutMode.out,
+          },
+          random: false,
+          speed: 0.5,
+          straight: false,
+        },
+        number: {
+          density: {
+            enable: true,
+          },
+          value: 40,
+        },
+        opacity: {
+          value: 1,
+        },
+        shape: {
+          type: "circle",
+        },
+        size: {
+          value: { min: 1, max: 4 },
+        },
+      },
+      detectRetina: true,
+    }),
+    [],
+  );
   
   return (
-   <div className="h-full flex-none md:w-1/3  bg-white bg-opacity-30 py-5 rounded-2xl">
-    {showConfetti && <Confetti numberOfPieces={200} recycle={false}/>}
-      <WordleGrid />
-      <div className="md:w-4/5 mt-4 mx-auto">
-        <Keyboard layout={layout}
-        theme={"hg-theme-default keyboard-bg"}
-        display={{'{enter}': 'Enter','{bksp}': 'Backspace',}} 
-        onKeyPress={(button) => handleKeyboardKeyPress(button)}
-        buttonTheme={buttonTheme}
-        disableButtonHold={true}
-        />
+    <div className="h-full w-full md:flex flex-col items-center">
+      <div className="absolute inset-0 z-[-1]">
+      <Particles options={options}></Particles>  
       </div>
-   </div>
+    <GameBoard />
+    </div>
   );
 }

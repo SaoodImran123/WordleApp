@@ -17,7 +17,7 @@ const Navbar = (props: Props) => {
                 <div className='mx-auto px-4 sm:px-6 lg:px-8'>
                     <div className='flex items-center justify-between h-16'>
                     <div className='flex-shrink-0'>
-                <Link href='/'>
+                <Link id="logo" href='/'>
                     <img 
                         className="h-[4em] w-auto object-contain" 
                         src="/logo2.png" 
@@ -30,10 +30,10 @@ const Navbar = (props: Props) => {
                         </div>
                         <div className='hidden md:block'>
                             <div className='space-x-4'>
-                                <Link href="/" className='hover:bg-white hover:text-black rounded-lg p-2'>
+                                <Link id="home" href="/" className='hover:bg-white hover:text-black rounded-lg p-2'>
                                     Home
                                 </Link>
-                                <Link href="/about" className='hover:bg-white hover:text-black rounded-lg p-2'>
+                                <Link id="about" href="/about" className='hover:bg-white hover:text-black rounded-lg p-2'>
                                     About
                                 </Link>
                             </div>
@@ -90,10 +90,10 @@ const Navbar = (props: Props) => {
                 {isClicked && (
                     <div className='md:hidden'>
                         <div className='px-2 pt-2 pb-3 space-y-1 sm:px-3'>
-                            <Link href='/' className='text-white block hover:bg-white hover:text-black rounded-lg p-2'>
+                            <Link id="homeMobile" href='/' className='text-white block hover:bg-white hover:text-black rounded-lg p-2'>
                                 Home
                             </Link>
-                            <Link href='/about' className='text-white block hover:bg-white hover:text-black rounded-lg p-2'>
+                            <Link id="aboutMobile" href='/about' className='text-white block hover:bg-white hover:text-black rounded-lg p-2'>
                                 About
                             </Link>
 
