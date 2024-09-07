@@ -1,80 +1,38 @@
-"use client"
+"use client";
 import { useEffect, useState, useMemo } from "react";
-import 'react-simple-keyboard/build/css/index.css'; 
+import "react-simple-keyboard/build/css/index.css";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
-import {
-  type ISourceOptions,
-  MoveDirection,
-  OutMode,
-} from "@tsparticles/engine";
-import { loadSlim } from "@tsparticles/slim"; 
-import GameBoard from "./GameBoard";
-
-
+import { loadSlim } from "@tsparticles/slim";
+import GameBoard from "./components/GameBoard";
+import { ParticleOptions } from "./utilities/particleConfig";
 
 export default function Home() {
+  //sets initizalization status for particle affects, lets engine set up first
   const [init, setInit] = useState(false);
-  useEffect(() => {
-    initParticlesEngine(async (engine) => {
-      await loadSlim(engine);
 
-    }).then(() => {
-      setInit(true);
-    });
+  //use effect to run once to begin particle setup
+  useEffect(() => {
+    const initializeParticles = async () => {
+      try {
+        await initParticlesEngine(async (engine) => {
+          await loadSlim(engine);
+        });
+        setInit(true);
+      } catch (error) {
+        console.error("Failed to initialize particles engine:", error);
+      }
+    };
+
+    initializeParticles();
   }, []);
 
-  
-  const options: ISourceOptions = useMemo(
-    () => ({
-      fpsLimit: 60,
-      particles: {
-        color: {
-          value: "#ffffff",
-        },
-        links: {
-          color: "#ffffff",
-          distance: 0,
-          enable: true,
-          opacity: 0.5,
-          width: 1,
-        },
-        move: {
-          direction: MoveDirection.none,
-          enable: true,
-          outModes: {
-            default: OutMode.out,
-          },
-          random: false,
-          speed: 0.5,
-          straight: false,
-        },
-        number: {
-          density: {
-            enable: true,
-          },
-          value: 40,
-        },
-        opacity: {
-          value: 1,
-        },
-        shape: {
-          type: "circle",
-        },
-        size: {
-          value: { min: 1, max: 4 },
-        },
-      },
-      detectRetina: true,
-    }),
-    [],
-  );
-  
+
   return (
     <div className="h-full w-full md:flex flex-col items-center">
       <div className="absolute inset-0 z-[-1]">
-      <Particles options={options}></Particles>  
+        {init && <Particles options={ParticleOptions} />}
       </div>
-    <GameBoard />
+      <GameBoard />
     </div>
   );
 }

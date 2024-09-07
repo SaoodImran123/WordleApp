@@ -1,19 +1,16 @@
 import type { Metadata } from "next";
-import StoreProvider from "./StoreProvider";
+import StoreProvider from "./store/StoreProvider";
 import { Fredoka } from "next/font/google";
 import "./globals.css";
-import Navbar from "./_components/Navbar";
+import Navbar from "./components/Navbar";
 import { Toaster } from "react-hot-toast";
 
-
-
-// const inter = Inter({ subsets: ["latin"] });
-
+//changing font to Fredoka
 const fredoka = Fredoka({
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
-  variable: '--font-fredoka'
-})
+  variable: "--font-fredoka",
+});
 
 export const metadata: Metadata = {
   title: "Wordle App",
@@ -25,22 +22,24 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-
   return (
     <html lang="en" className="">
-      <body className={`${fredoka.variable} font-sans min-h-screen flex flex-col bg-[url('/background.webp')]`}>
-        <Navbar />
-        <main className="pt-10 mt-5 max-sm:pb-10 md:px-20 md:flex flex-grow justify-center">
-        <StoreProvider>
-          {children}
-          </StoreProvider>
-          <Toaster position="top-center" toastOptions={{
-            className: "mt-12 p-4 text-xl"
-          }}/>
-        </main>
-
-      </body>
+      <StoreProvider>
+        <body
+          className={`${fredoka.variable} font-sans min-h-screen flex flex-col bg-[url('/background.webp')]`}
+        >
+          <Navbar />
+          <main className="pt-10 mt-5 max-sm:pb-10 md:px-20 md:flex flex-grow justify-center">
+            {children}
+            <Toaster
+              position="top-center"
+              toastOptions={{
+                className: "mt-12 p-4 text-xl",
+              }}
+            />
+          </main>
+        </body>
+      </StoreProvider>
     </html>
   );
 }
