@@ -17,7 +17,7 @@ export default React.memo(function SubGrid({ rowIndex }: SubGridProps) {
   //keeps track of if the game is over yet or not
   const gameOver = useAppSelector((state) => state.codes.gameOver);
 
-  //callback for resetting shake status, improves performance so function is not recreated needlessly 
+  //callback for resetting shake status, improves performance so function is not recreated needlessly
   const resetShakeStatus = useCallback(() => {
     dispatch(setShakers({ index: rowIndex, shakeStatus: false }));
   }, [dispatch, rowIndex]);
@@ -57,7 +57,6 @@ export default React.memo(function SubGrid({ rowIndex }: SubGridProps) {
       });
     }
   }, [colors, rowIndex]);
-
 
   return (
     <div className="flex justify-center pb-2" id={`row-${rowIndex}`}>

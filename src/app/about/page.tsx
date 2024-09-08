@@ -32,7 +32,7 @@ export default function About() {
             </div>
             <div className="md:h-[500px] md:w-[600px] bg-white bg-opacity-30 text-white md:text-2xl text-xl px-2 rounded-3xl">
                 <div className="text-center font-bold text-4xl">Instructions</div>
-                <div className="flex flex-col justify-content">
+                <div className="mt-2 flex flex-col justify-content">
                     <span className="pb-2"><span className="font-semibold">1. Guess the Word: </span>Crack the five-letter word of the day</span>
                     <span className="pb-2"><span className="font-semibold">2. Six Shots: </span>You&apos;ve got six tries to get it right.</span>
                     <span className="pb-2"><span className="font-semibold">3. Gray Means Nope: </span>Gray boxes show letters that aren&apos;t in the word at all.</span>
