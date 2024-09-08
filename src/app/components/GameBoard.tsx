@@ -79,7 +79,9 @@ export default function GameBoard() {
         focusedElement?.id === "homeMobile" ||
         focusedElement?.id === "aboutMobile";
 
+      //if the game is not over and the user presses enter, while not focusing on the navbar for navigation
       if (e.key === "Enter" && !isNavbarLinkFocused && gameOver == false) {
+        //if they have fewer than five characters in the active row
         if (codes[row].length < 5) {
           toast.error("Too few characters!"),
             {
@@ -87,6 +89,7 @@ export default function GameBoard() {
             };
         } else {
           try {
+            //make the api call to validate the word
             const response = await fetch(
               `${process.env.NEXT_PUBLIC_WORDLE_API}`,
               {
@@ -95,9 +98,11 @@ export default function GameBoard() {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ guess: codes[row] }),
+                //default option but explicit here
                 cache: "force-cache",
               }
             );
+            //if API response is not ok
             if (!response.ok) {
               throw new Error("Failed to fetch validation result");
             }
@@ -115,14 +120,17 @@ export default function GameBoard() {
             toast.error("Failed to validate the word. Please try again.");
           }
         }
+        //if the user instead presses an alphabet key
       } else if (Config.checkAlpha(e.key)) {
         if (codes[row].length < 5) {
           dispatch(
             setCodes({ index: row, code: codes[row] + e.key.toUpperCase() })
           );
         }
+        //if the user presses backspace to erase
       } else if (e.key === "Backspace") {
         e.preventDefault();
+        //dont allow erasing of the characters if the game is over 
         if (gameOver == false) {
           dispatch(setCodes({ index: row, code: codes[row].slice(0, -1) }));
         }
@@ -154,7 +162,7 @@ export default function GameBoard() {
       setAnimationClass("scroll-in-bottom");
       dispatch(setAnimation(true));
     }
-  }, []);
+  }, [dispatch, animationPlayed]);
 
   //useeffect to add an event listener for keyboard presses to entire page
   useEffect(() => {
@@ -166,7 +174,7 @@ export default function GameBoard() {
 
   return (
     <div
-      className={`md:w-[500px] md:h-[650px] bg-white bg-opacity-30 py-5 rounded-2xl ${animationClass}`}
+      className={`md:w-[500px] md:h-[650px] w-full h-full bg-white bg-opacity-30 py-5 rounded-2xl ${animationClass}`}
       tabIndex={0}
     >
       {showConfetti && <Confetti numberOfPieces={200} recycle={false} />}

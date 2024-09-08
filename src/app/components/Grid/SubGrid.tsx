@@ -56,7 +56,7 @@ export default React.memo(function SubGrid({ rowIndex }: SubGridProps) {
         }
       });
     }
-  }, [colors, rowIndex]);
+  }, [colors, rowIndex, activeRow, gameOver]);
 
   return (
     <div className="flex justify-center pb-2" id={`row-${rowIndex}`}>
