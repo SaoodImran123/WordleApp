@@ -59,12 +59,12 @@ export default React.memo(function SubGrid({ rowIndex }: SubGridProps) {
   }, [colors, rowIndex, activeRow, gameOver]);
 
   return (
-    <div className="flex justify-center pb-2" id={`row-${rowIndex}`}>
+    <div className="subgrid-row" id={`row-${rowIndex}`}>
       {colors.map((color, index) => (
         <div
           id={`char-${rowIndex}-${index}`}
           key={index}
-          className={`mx-1 my-0 w-14 h-14 mx-2 md:w-16 md:h-16 flex items-center justify-center rounded-2xl ${color} ${
+          className={`subgrid-box ${color} ${
             ((index === 4 && code.length === 5) || code.length === index) &&
             rowIndex === activeRow
               ? "border border-2"
@@ -74,7 +74,7 @@ export default React.memo(function SubGrid({ rowIndex }: SubGridProps) {
         >
           <span
             id={`desc-${rowIndex}-${index}`}
-            className="text-3xl font-semibold text-center text-keyboardCol5"
+            className="subgrid-box-text"
           >
             {code[index] || ""}
           </span>

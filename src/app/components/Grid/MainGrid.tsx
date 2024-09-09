@@ -8,7 +8,7 @@ export default function MainGrid() {
   const codes = useAppSelector((state) => state.codes.codes);
 
   return (
-    <div className="flex justify-center flex-col">
+    <div className="maingrid-container">
       {codes.map((code, index) => (
         <SubGrid key={index} rowIndex={index}></SubGrid>
       ))}

@@ -11,10 +11,10 @@ export default function Navbar() {
   };
   return (
     <>
-      <nav className="bg-gradient-to-r from-gradientLeft to-gradientRight text-navTextColor">
+      <nav className="gradient text-white">
         <div className="mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex-shrink-0">
+            <div className="">
               <Link id="logo" href="/">
                 <img
                   className="h-[4em] w-auto object-contain"
@@ -23,7 +23,7 @@ export default function Navbar() {
                 />
               </Link>
             </div>
-            <div className="md:absolute md:left-1/2 md:transform md:-translate-x-1/2 text-4xl font-semibold">
+            <div className="nav-title">
               <h1> Wordle App</h1>
             </div>
             <div className="hidden md:block">
@@ -31,22 +31,22 @@ export default function Navbar() {
                 <Link
                   id="home"
                   href="/"
-                  className="hover:bg-white hover:text-black rounded-lg p-2"
+                  className="navBtn"
                 >
                   Home
                 </Link>
                 <Link
                   id="about"
                   href="/about"
-                  className="hover:bg-white hover:text-black rounded-lg p-2"
+                  className="navBtn"
                 >
                   About
                 </Link>
               </div>
             </div>
-            <div className="md:hidden flex items-center">
+            <div className="md:hidden">
               <button
-                className="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                className="burgerToggle"
                 onClick={toggleNav}
               >
                 {isClicked ? (
@@ -90,14 +90,15 @@ export default function Navbar() {
               <Link
                 id="homeMobile"
                 href="/"
-                className="text-white block hover:bg-white hover:text-black rounded-lg p-2"
+                className="block navBtn"
+                tabIndex={0}
               >
                 Home
               </Link>
               <Link
                 id="aboutMobile"
                 href="/about"
-                className="text-white block hover:bg-white hover:text-black rounded-lg p-2"
+                className="block navBtn"
               >
                 About
               </Link>

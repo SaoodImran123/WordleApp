@@ -19,7 +19,6 @@ const config: Config = {
         orangeCircle: '#ffbd59',
         grayCircle: '#a6a6a6',
         circleText: '#e6f0ff',
-        navTextColor: '#ffffff',
         gradientLeft: '#8561d5',
         gradientRight: '#079df1',
         keyboardCol1: '#8462d5',

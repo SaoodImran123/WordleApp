@@ -29,3 +29,54 @@
 .scroll-in-bottom {
   animation: scrollFromBottom 1.25s;
 }
+
+.gradient {
+  @apply bg-gradient-to-r from-gradientLeft to-gradientRight
+}
+.btn {
+  @apply mt-10 p-4 md:px-10 rounded-full font-semibold text-xl text-white;
+}
+
+.particles{
+  @apply absolute inset-0 z-[-1];
+}
+
+.transparentBox {
+  @apply bg-white bg-opacity-30;
+}
+
+.navBtn {
+  @apply hover:bg-white hover:text-black rounded-lg p-2
+}
+
+.homeContainer {
+  @apply h-full w-full flex flex-col items-center justify-center;
+}
+
+.gameBoardContainer {
+  @apply md:w-[500px] md:h-[650px] w-full h-full transparentBox py-5 rounded-2xl;
+}
+
+.keyboardContainer{
+  @apply md:w-4/5 mt-4 mx-auto;
+}
+
+.maingrid-container{
+  @apply flex justify-center flex-col;
+}
+
+.subgrid-box {
+  @apply mx-1 my-0 w-14 h-14 mx-2 md:w-16 md:h-16 flex items-center justify-center rounded-2xl;
+}
+.subgrid-box-text {
+  @apply text-3xl font-semibold text-center text-keyboardCol5;
+}
+.subgrid-row {
+  @apply flex justify-center pb-2;
+}
+.nav-title{
+  @apply md:absolute md:left-1/2 md:transform md:-translate-x-1/2 text-4xl font-semibold;
+}
+.burgerToggle{
+  @apply p-2 rounded-md focus:ring-2 focus:ring-white;
+}

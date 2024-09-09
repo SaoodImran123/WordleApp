@@ -27,10 +27,10 @@ export default function About() {
 
     return (
         <div className="w-full flex items-center flex-col">
-            <div className="absolute inset-0 z-[-1]">
+            <div className="particles">
             {init && <Particles options={ParticleOptions} />}
             </div>
-            <div className="md:h-[500px] md:w-[600px] bg-white bg-opacity-30 text-white md:text-2xl text-xl px-2 rounded-3xl">
+            <div className="md:h-[500px] md:w-[600px] transparentBox text-white md:text-2xl text-xl px-2 rounded-3xl">
                 <div className="text-center font-bold text-4xl">Instructions</div>
                 <div className="mt-2 flex flex-col justify-content">
                     <span className="pb-2"><span className="font-semibold">1. Guess the Word: </span>Crack the five-letter word of the day</span>
@@ -41,7 +41,7 @@ export default function About() {
                     <span className="pb-2"><span className="font-semibold">6. Keep it Real: </span>Only real words count, so you won&apos;t waste any guesses on gibberish!</span>
                 </div>
             </div>
-            <Link className="bg-gradient-to-r from-gradientLeft to-gradientRight mt-10 p-4 md:px-10 rounded-full font-semibold text-xl text-white" href="/">Ready to play?</Link>
+            <Link className="btn gradient" href="/">Ready to play?</Link>
         </div>
 
     )

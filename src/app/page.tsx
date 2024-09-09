@@ -30,19 +30,19 @@ export default function Home() {
 
 
   return (
-    <div className="h-full w-full flex flex-col items-center justify-center">
-      <div className="absolute inset-0 z-[-1]">
+    <div className="homeContainer">
+      <div className="particles">
         {init && <Particles options={ParticleOptions} />}
       </div>
       <GameBoard />
-      {gameState && (
+      {gameState ? (
         <button
-          className="bg-gradient-to-r from-gradientLeft to-gradientRight mt-10 p-4 px-10 rounded-full font-semibold text-xl text-white"
+          className="btn gradient"
           onClick={() => window.location.reload()}
         >
           Play again?
         </button>
-      )}
+      ) : null}
     </div>
   );
   

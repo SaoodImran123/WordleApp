@@ -27,6 +27,8 @@ const colorMap = [
 ];
 
 export default function GameBoard() {
+  //locks user out from editing code after pressing enter
+  const [lockout, setLockout] = useState(false);
   //maintain current row the user is able to enter text for
   const row = useAppSelector((states) => states.codes.currentRow);
   //maintain if game is over or not yet
@@ -41,7 +43,7 @@ export default function GameBoard() {
   const codes = useAppSelector((state) => state.codes.codes);
   const dispatch = useAppDispatch();
 
-  //handles the API response 
+  //handles the API response
   const handleResponse = (result: any) => {
     //if the word is valid
     if (result.is_valid_word) {
@@ -55,16 +57,17 @@ export default function GameBoard() {
         toast.success("You win!", Config.TOAST_CONFIG.LONG);
         dispatch(setGameOver(true));
         setShowConfetti(true);
-      //otherwise, if the game can continue, move onto next row
+        //otherwise, if the game can continue, move onto next row
       } else if (row < 5) {
         dispatch(setCurrentRow(row + 1));
-      //else if the game is over, end the game by setting winState
+        //else if the game is over, end the game by setting winState
       } else {
         toast.error("Nice try!", Config.TOAST_CONFIG.MEDIUM);
         dispatch(setGameOver(true));
       }
     } else {
       toast.error("Not a valid word.", Config.TOAST_CONFIG.SHORT);
+      //update state to alert appropriate row to shake
       dispatch(setShakers({ index: row, shakeStatus: true }));
     }
   };
@@ -72,6 +75,7 @@ export default function GameBoard() {
   //handles keydown event from bother virtual and real keyboards
   const handleKeyDown = useCallback(
     async (e: KeyboardEvent) => {
+      e.stopPropagation();
       const focusedElement = document.activeElement;
       const isNavbarLinkFocused =
         focusedElement?.id === "home" ||
@@ -81,12 +85,16 @@ export default function GameBoard() {
 
       //if the game is not over and the user presses enter, while not focusing on the navbar for navigation
       if (e.key === "Enter" && !isNavbarLinkFocused && gameOver == false) {
+        //since the user is submitting, prevent any editing of the code string
+        setLockout(true);
         //if they have fewer than five characters in the active row
         if (codes[row].length < 5) {
           toast.error("Too few characters!"),
             {
               duration: 1000,
             };
+            //allow editing again
+          setLockout(false);
         } else {
           try {
             //make the api call to validate the word
@@ -106,6 +114,7 @@ export default function GameBoard() {
             if (!response.ok) {
               throw new Error("Failed to fetch validation result");
             }
+            //check to see that the API response format is as expected
             const result = await response.json();
             if (
               !result ||
@@ -114,35 +123,41 @@ export default function GameBoard() {
             ) {
               throw new Error("Unexpected response format");
             }
+            //if everything is ok, send the result to the handle function
             handleResponse(result);
+            setLockout(false);
           } catch (error) {
             console.error("Error in fetch request:", error);
             toast.error("Failed to validate the word. Please try again.");
+            setLockout(false);
           }
         }
-        //if the user instead presses an alphabet key
+        //if the user presses an alphabet key, update the state to reflect it
       } else if (Config.checkAlpha(e.key)) {
-        if (codes[row].length < 5) {
+        if (codes[row].length < 5 && lockout == false) {
           dispatch(
             setCodes({ index: row, code: codes[row] + e.key.toUpperCase() })
           );
         }
         //if the user presses backspace to erase
       } else if (e.key === "Backspace") {
+        //make it so that the user doesn't get redirected to previous page via backspace
         e.preventDefault();
-        //dont allow erasing of the characters if the game is over 
-        if (gameOver == false) {
+        //dont allow erasing of the characters if the game is over
+        if (gameOver == false && lockout == false) {
           dispatch(setCodes({ index: row, code: codes[row].slice(0, -1) }));
         }
       }
     },
-    [codes, row, gameOver]
+    [codes, row, gameOver, lockout]
   );
 
   //converts virtual keyboard event into real keyboad event due to type mismatch
   const handleVirtualKeyboardKeyPress = useCallback(
     (button: string) => {
+      //convert button string to be transferable to keyboard event
       const translatedKey = Config.translateKey(button);
+      //new synthetic key down
       const event = new KeyboardEvent("keydown", {
         key: translatedKey,
         code: translatedKey,
@@ -164,22 +179,20 @@ export default function GameBoard() {
     }
   }, [dispatch, animationPlayed]);
 
-  //useeffect to add an event listener for keyboard presses to entire page
+  //useeffect to add an event listener for keyboard presses to entire page as opposed to any component
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);
+    //if component unmounts, remove the event listener
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [handleKeyDown]);
 
   return (
-    <div
-      className={`md:w-[500px] md:h-[650px] w-full h-full bg-white bg-opacity-30 py-5 rounded-2xl ${animationClass}`}
-      tabIndex={0}
-    >
+    <div className={`gameBoardContainer ${animationClass}`} tabIndex={0}>
       {showConfetti && <Confetti numberOfPieces={200} recycle={false} />}
       <MainGrid />
-      <div className="md:w-4/5 mt-4 mx-auto">
+      <div className="keyboardContainer">
         <Keyboard
           layout={Config.layout}
           theme={"hg-theme-default keyboard-bg"}
